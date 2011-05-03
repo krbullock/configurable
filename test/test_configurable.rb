@@ -27,7 +27,9 @@ describe Configurable do
     end
 
     it 'should create the config struct' do
-      assert @test_class.instance_eval { @_config_struct }.ancestors.include? ConfigStruct::Struct
+      assert @test_class.instance_eval {
+        @_config_struct
+      }.ancestors.include? ConfigStruct::Struct
     end
   end
 end
