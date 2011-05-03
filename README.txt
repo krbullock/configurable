@@ -32,10 +32,6 @@ Lets you make your Ruby class configurable with a simple mixin.
       configurable_options :foo => 'default',
         :bar => {:quux => 42, :wibble => nil},
         :baz => nil
-
-      def initialize(opts = {})
-        # Be sure to call super to set the configuration
-        super
       end
     end
 
