@@ -23,10 +23,12 @@ module Configurable
     def config
       raise NameError, 'use configurable_options to define settings' unless
         @_config_struct
-      @_config ||= @_config_struct.new(@_config_defaults)
+      @_config ||= @_default_config.dup
     end
 
     def default_config
+      raise NameError, 'use configurable_options to define settings' unless
+        @_config_struct
       @_default_config
     end
   end

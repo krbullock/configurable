@@ -17,6 +17,12 @@ describe Configurable do
         assert_raises(NameError) { @test_class.config }
       end
     end
+
+    describe 'default_config' do
+      it 'should raise NameError' do
+        assert_raises(NameError) { @test_class.default_config }
+      end
+    end
   end
 
   describe 'configurable_options' do
