@@ -62,4 +62,20 @@ describe Configurable do
       assert_equal ['one', 'two'], @struct.members
     end
   end
+
+  describe 'after configurable_options is called' do
+    before do
+      @test_class.instance_eval do
+        configurable_options :one => 1, :two => nil
+      end
+    end
+
+    describe 'default_config' do
+      it 'should return the default config' do
+        defaults = @test_class.default_config
+        assert_equal 1, defaults.one
+        assert_equal nil, defaults.two
+      end
+    end
+  end
 end
