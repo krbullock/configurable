@@ -24,17 +24,22 @@ describe Configurable do
       @test_class.instance_eval do
         configurable_options :one => 1, :two => nil
       end
-      @struct = @test_class.instance_eval { @_config_struct }
-      @defaults = @test_class.instance_eval { @_config_defaults }
     end
 
     it 'should create the config struct' do
+      begin
+        # config struct should be created as <base class>::Config
+        @struct = @test_class.const_get('Config')
+      rescue NameError
+        flunk "#{@test_class}::Config not found"
+      end
+      refute_equal ::Config, @struct
       assert @struct.ancestors.include? ConfigStruct::Struct
     end
 
     it 'should store defaults' do
-      assert_equal 1, @defaults[:one]
-      assert_nil @defaults[:two]
+      assert_equal 1, @test_class.default_config[:one]
+      assert_nil @test_class.default_config[:two]
     end
   end
 
