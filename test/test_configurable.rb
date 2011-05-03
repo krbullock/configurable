@@ -68,13 +68,17 @@ describe Configurable do
       @test_class.instance_eval do
         configurable_options :one => 1, :two => nil
       end
+      @defaults = @test_class.default_config
     end
 
     describe 'default_config' do
       it 'should return the default config' do
-        defaults = @test_class.default_config
-        assert_equal 1, defaults.one
-        assert_equal nil, defaults.two
+        assert_equal 1, @defaults.one
+        assert_equal nil, @defaults.two
+      end
+
+      it 'should be frozen' do
+        assert_raises(TypeError) { @defaults.one = 42 }
       end
     end
   end
