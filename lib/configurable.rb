@@ -8,14 +8,20 @@ module Configurable
   end
 
   module ClassMethods
-    def configurable_options(opts = {})
-      @_config_struct = ConfigStruct::Struct.new(*opts.keys)
+    def configurable_options(*args)
+      @_config_defaults = args.extract_options!
+      members = if args.empty?
+                  @_config_defaults.keys
+                else
+                  args
+                end
+      @_config_struct = ConfigStruct::Struct.new(*members)
     end
 
     def config
       raise NameError, 'use configurable_options to define settings' unless
         @_config_struct
-      @_config ||= @_config_struct.new
+      @_config ||= @_config_struct.new(@_config_defaults)
     end
   end
 end
