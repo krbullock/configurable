@@ -3,21 +3,21 @@ require 'minitest/autorun'
 
 require 'configurable/config_struct'
 
-class TestConfigStruct < MiniTest::Unit::TestCase
-  def setup
+describe ConfigStruct do
+  before do
     @struct = ConfigStruct::Struct.new(:a)
   end
 
-  def test_hash_initialization
+  it 'should be initialized from keyword args' do
     inst = @struct.new(:a => 42)
     assert_equal 42, inst.a
   end
 
-  def test_reject_unknown_members
+  it 'should reject unknown keywords' do
     assert_raises(NameError) { @struct.new(:b => 'invalid argument') }
   end
 
-  def test_hash_args_override_positional_args
+  it 'should override positional args with keyword args' do
     inst = @struct.new(1, :a => 42)
     assert_equal 42, inst.a
   end
