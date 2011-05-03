@@ -68,17 +68,36 @@ describe Configurable do
       @test_class.instance_eval do
         configurable_options :one => 1, :two => nil
       end
-      @defaults = @test_class.default_config
     end
 
     describe 'default_config' do
+      before do
+        @defaults = @test_class.default_config
+      end
+
       it 'should return the default config' do
         assert_equal 1, @defaults.one
         assert_equal nil, @defaults.two
       end
 
       it 'should be frozen' do
+        assert @defaults.frozen?
         assert_raises(TypeError) { @defaults.one = 42 }
+      end
+    end
+
+    describe 'config' do
+      before do
+        @config = @test_class.config
+      end
+
+      it 'should not be frozen' do
+        refute @config.frozen?
+        begin
+          @config.one = 42
+        rescue TypeError
+          flunk "couldn't set config.one"
+        end
       end
     end
   end
