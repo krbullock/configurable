@@ -1,0 +1,8 @@
+.autotest
+History.txt
+Manifest.txt
+README.txt
+Rakefile
+bin/configurable
+lib/configurable.rb
+test/test_configurable.rb
