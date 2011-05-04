@@ -91,7 +91,16 @@ describe Configurable do
       assert a_struct.ancestors.include? ConfigStruct::Struct
     end
 
-    it 'should store defaults'
+    it 'should store defaults' do
+      defaults = @test_class.default_config
+      assert_respond_to defaults, :a
+      assert_respond_to defaults.a, :b
+      assert_equal nil, defaults.a.b
+
+      assert_respond_to defaults, :c
+      assert_respond_to defaults.c, :d
+      assert_equal 42, defaults.c.d
+    end
   end
 
   describe 'after configurable_options is called' do
