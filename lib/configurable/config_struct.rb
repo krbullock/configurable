@@ -16,5 +16,12 @@ module ConfigStruct
       klass = super
       klass.send(:include, HashInitializer)
     end
+
+    def initialize_copy(orig)
+      super
+      for member in members
+        self[member] = self[member].dup if self[member].is_a? Struct
+      end
+    end
   end
 end
