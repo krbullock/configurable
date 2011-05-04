@@ -1,8 +1,12 @@
 .autotest
+COPYING.txt
 History.txt
 Manifest.txt
 README.txt
 Rakefile
-bin/configurable
 lib/configurable.rb
+lib/configurable/config_struct.rb
+lib/configurable/core_ext/extract_options.rb
+lib/configurable/core_ext/inflections.rb
+test/test_config_struct.rb
 test/test_configurable.rb
