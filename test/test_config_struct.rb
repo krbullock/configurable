@@ -29,7 +29,7 @@ describe ConfigStruct::Struct do
 
   describe 'replace' do
     before do
-      @inst = @struct.new(5)
+      @inst = @struct.new(5, 3)
     end
 
     it 'should replace values from positional args' do
@@ -45,6 +45,11 @@ describe ConfigStruct::Struct do
     it 'should override positional args with keyword args' do
       @inst.replace(42, :a => 3)
       assert_equal 3, @inst.a
+    end
+
+    it 'should set unspecified values to nil' do
+      @inst.replace(:b => 42)
+      assert_nil @inst.a
     end
   end
 

@@ -26,8 +26,8 @@ module ConfigStruct
 
     def replace(*args)
       hash_args = args.extract_options!
-      args.each_with_index do |v, i|
-        replace_member!(i, v)
+      for member, v in members.zip(args)
+        replace_member!(member, v)
       end
       for k, v in hash_args
         replace_member!(k, v)
@@ -37,10 +37,10 @@ module ConfigStruct
     def update(*args)
       hash_args = args.extract_options!
       args.each_with_index do |v, i|
-        replace_member!(i, v)
+        update_member!(i, v)
       end
       for k, v in hash_args
-        replace_member!(k, v)
+        update_member!(k, v)
       end
     end
     alias merge! update
@@ -71,6 +71,18 @@ module ConfigStruct
         'cannot replace a ConfigStruct::Struct with a scalar' unless
           value.respond_to? :to_args
         self[member].replace(*value.to_args)
+      else
+        self[member] = value
+      end
+    end
+
+    # member may also be an index
+    def update_member!(member, value)
+      if self[member].is_a? Struct
+        raise TypeError,
+        'cannot replace a ConfigStruct::Struct with a scalar' unless
+          value.respond_to? :to_args
+        self[member].update(*value.to_args)
       else
         self[member] = value
       end
