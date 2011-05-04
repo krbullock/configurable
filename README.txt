@@ -23,9 +23,13 @@ Lets you make your Ruby class configurable with a simple mixin.
   so they can be accessed via normal methods calls, or by Symbol or
   String keys.
 
-* Settings can be configured from a hash or deserialized from YAML,
-  either in a string or a file. (And remember, YAML is a superset of
-  JSON!)
+* Settings (even nested settings) can be serialized to a hash with
+  string keys, which means you can also trivially serialize to YAML (or
+  JSON).
+
+* Settings (even nested settings) can be loaded from a hash, which means
+  you can also trivially deserialize from YAML (and remember, YAML is a
+  superset of JSON).
 
 * Plays nicely with the Singleton module.
 
@@ -57,6 +61,13 @@ Lets you make your Ruby class configurable with a simple mixin.
 
     Doodad.config               # => a (deep) copy of default_config,
                                 #    ready for use
+
+    Doodad.config.replace(      # replaces config with passed values
+      :foo => 'mine',
+      :bar => {:quux => 9})
+
+    Doodad.config.replace(      # loads config from a YAML file
+      YAML.load('config.yml'))
 
 == REQUIREMENTS:
 
