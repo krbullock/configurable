@@ -1,8 +1,8 @@
 # Define Array#extract_options! and associated methods if they're not
 # already defined. Code taken from Rails' ActiveSupport.
 
-unless {}.respond_to? :extractable_options?
-  class Hash
+class Hash
+  unless {}.respond_to? :extractable_options?
     # By default, only instances of Hash itself are extractable.
     # Subclasses of Hash may implement this method and return
     # true to declare themselves as extractable. If a Hash
@@ -12,10 +12,14 @@ unless {}.respond_to? :extractable_options?
       instance_of?(Hash)
     end
   end
+
+  def to_args
+    [self]
+  end
 end
 
-unless [].respond_to? :extract_options!
-  class Array
+class Array
+  unless [].respond_to? :extract_options!
     # Extracts options from a set of arguments. Removes and returns the last
     # element in the array if it's a hash, otherwise returns a blank hash.
     #
@@ -32,5 +36,9 @@ unless [].respond_to? :extract_options!
         {}
       end
     end
+  end
+
+  def to_args
+    self
   end
 end
