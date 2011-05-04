@@ -23,5 +23,17 @@ module ConfigStruct
         self[member] = self[member].dup if self[member].is_a? Struct
       end
     end
+
+    def to_hash
+      members.inject({}) do |hsh, k|
+        hsh.tap do |h|
+          h[k] = if self[k].is_a? Struct
+                   self[k].to_hash
+                 else
+                   self[k]
+                 end
+        end
+      end
+    end
   end
 end

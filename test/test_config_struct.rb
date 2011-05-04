@@ -22,6 +22,11 @@ describe ConfigStruct::Struct do
     assert_equal 42, inst.a
   end
 
+  it 'should convert to a hash' do
+    inst = @struct.new(42)
+    assert_equal 42, inst.to_hash['a']
+  end
+
   describe 'with a nested ConfigStruct::Struct' do
     before do
       @nested = ConfigStruct::Struct.new(:b)
@@ -36,6 +41,11 @@ describe ConfigStruct::Struct do
       refute_nil @copy.a
       @copy.a.b = 2
       assert_equal 1, @inst.a.b
+    end
+
+    it 'should convert to a hash recursively' do
+      assert_kind_of Hash, @inst.to_hash['a']
+      assert_equal 1, @inst.to_hash['a']['b']
     end
   end
 
@@ -52,6 +62,11 @@ describe ConfigStruct::Struct do
       refute_nil @copy.a
       @copy.a.b = 2
       assert_equal 2, @inst.a.b
+    end
+
+    it 'should not convert to a hash recursively' do
+      assert_kind_of @nested, @inst.to_hash['a']
+      assert_equal 1, @inst.to_hash['a'].b
     end
   end
 end
