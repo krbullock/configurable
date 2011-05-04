@@ -91,6 +91,15 @@ describe Configurable do
       assert a_struct.ancestors.include? ConfigStruct::Struct
     end
 
+    it 'should create a nested C struct' do
+      begin
+        c_struct = @struct.const_get('C')
+      rescue NameError
+        flunk "#{@test_class}::Config::C not found"
+      end
+      assert c_struct.ancestors.include? ConfigStruct::Struct
+    end
+
     it 'should store defaults' do
       defaults = @test_class.default_config
       assert_respond_to defaults, :a
