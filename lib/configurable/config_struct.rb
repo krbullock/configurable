@@ -34,6 +34,17 @@ module ConfigStruct
       end
     end
 
+    def update(*args)
+      hash_args = args.extract_options!
+      args.each_with_index do |v, i|
+        replace_member!(i, v)
+      end
+      for k, v in hash_args
+        replace_member!(k, v)
+      end
+    end
+    alias merge! update
+
     def to_hash
       members.inject({}) do |hsh, k|
         hsh.tap do |h|

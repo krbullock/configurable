@@ -5,7 +5,7 @@ require 'configurable/config_struct'
 
 describe ConfigStruct::Struct do
   before do
-    @struct = ConfigStruct::Struct.new(:a)
+    @struct = ConfigStruct::Struct.new(:a, :b)
   end
 
   it 'should be initialized from keyword args' do
@@ -14,7 +14,7 @@ describe ConfigStruct::Struct do
   end
 
   it 'should reject unknown keywords' do
-    assert_raises(NameError) { @struct.new(:b => 'invalid argument') }
+    assert_raises(NameError) { @struct.new(:z => 'invalid argument') }
   end
 
   it 'should override positional args with keyword args' do
@@ -45,6 +45,18 @@ describe ConfigStruct::Struct do
     it 'should override positional args with keyword args' do
       @inst.replace(42, :a => 3)
       assert_equal 3, @inst.a
+    end
+  end
+
+  describe 'update' do
+    before do
+      @inst = @struct.new(5)
+    end
+
+    it 'should merge values' do
+      @inst.update(:b => 42)
+      assert_equal 5, @inst.a
+      assert_equal 42, @inst.b
     end
   end
 
