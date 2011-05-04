@@ -7,7 +7,7 @@ module Configurable
 
   def self.included(klass)
     klass.extend Macros
-    klass.extend ClassMethods
+    klass.extend ConfigAccessors
   end
 
   def default_config
@@ -49,7 +49,7 @@ module Configurable
     end
   end
 
-  module ClassMethods
+  module ConfigAccessors
     def config
       raise NameError, 'use configurable_options to define settings' unless
         @_config_struct
