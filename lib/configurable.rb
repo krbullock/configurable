@@ -10,11 +10,7 @@ module Configurable
   module ClassMethods
     def configurable_options(*args)
       defaults = args.extract_options!
-      members = if args.empty?
-                  defaults.keys
-                else
-                  args
-                end
+      members = (args + defaults.keys).uniq
       @_config_struct = ConfigStruct::Struct.new(*members)
       const_set(:Config, @_config_struct) unless const_defined? :Config
       @_default_config = @_config_struct.new(defaults).freeze

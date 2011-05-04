@@ -53,13 +53,17 @@ describe Configurable do
     before do
       @test_class.instance_eval do
         configurable_options :one, :two,
-          :one => 1
+          :one => 1, :five => 3
       end
       @struct = @test_class.instance_eval { @_config_struct }
     end
 
     it 'should order the keys the config struct' do
-      assert_equal ['one', 'two'], @struct.members
+      assert_equal ['one', 'two'], @struct.members[0,2]
+    end
+
+    it 'should create members from hash keys at the end' do
+      assert_equal 'five', @struct.members.last
     end
   end
 
