@@ -1,4 +1,4 @@
-require 'configurable/core_ext'
+require 'configurable/core_ext/extract_options'
 
 module ConfigStruct
   module HashInitializer

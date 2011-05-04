@@ -1,4 +1,5 @@
 require 'configurable/config_struct'
+require 'configurable/core_ext/extract_options'
 
 module Configurable
   VERSION = '1.0.0'
