@@ -35,11 +35,9 @@ module Configurable
       default_config = struct.new
       base.const_set(name, struct)
       for k, v in defaults
-        if v.respond_to?(:to_hash) and v.respond_to?(:keys)
-          substruct, subdefault = create_struct(struct, k.to_s.camelize, v)
-          default_config[k] = subdefault
-        elsif v.respond_to?(:to_ary)
-          substruct, subdefault = create_struct(struct, k.to_s.camelize, *v)
+        if v.respond_to?(:to_args)
+          substruct, subdefault =
+            create_struct(struct, k.to_s.camelize, *(v.to_args))
           default_config[k] = subdefault
         else
           default_config[k] = v
