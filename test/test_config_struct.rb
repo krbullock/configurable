@@ -53,6 +53,21 @@ describe ConfigStruct::Struct do
       @inst = @struct.new(5)
     end
 
+    it 'should replace values from positional args' do
+      @inst.replace(42)
+      assert_equal 42, @inst.a
+    end
+
+    it 'should replace values from keyword args' do
+      @inst.replace(:a => 42)
+      assert_equal 42, @inst.a
+    end
+
+    it 'should override positional args with keyword args' do
+      @inst.replace(42, :a => 3)
+      assert_equal 3, @inst.a
+    end
+
     it 'should merge values' do
       @inst.update(:b => 42)
       assert_equal 5, @inst.a
