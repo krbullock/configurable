@@ -32,6 +32,8 @@ Lets you make your Ruby class configurable with a simple mixin.
 * Can safely store other kinds of structs as opaque config values. They
   won't get automatically deep-copied.
 
+* Doesn't yet support independent configs for classes and their subclasses.
+
 == SYNOPSIS:
 
     require 'configurable'
