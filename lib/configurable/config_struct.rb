@@ -35,5 +35,9 @@ module ConfigStruct
         end
       end
     end
+
+    def to_args
+      self.to_hash.to_args
+    end
   end
 end
