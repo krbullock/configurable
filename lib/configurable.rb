@@ -9,6 +9,15 @@ module Configurable
     klass.extend ClassMethods
   end
 
+  def default_config
+    self.class.default_config
+  end
+
+  def config
+    @_config ||= self.class.config.dup
+  end
+
+
   module ClassMethods
     def configurable_options(*args)
       @_config_struct, @_default_config =

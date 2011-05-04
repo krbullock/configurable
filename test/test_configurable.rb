@@ -119,6 +119,25 @@ describe Configurable do
       end
     end
 
+    describe 'an instance' do
+      before do
+        @test_inst = @test_class.new
+      end
+
+      it 'should have its own config' do
+        assert @test_inst.config
+        @test_inst.config.one = 42
+        refute_equal 42, @test_class.config
+      end
+
+      it "should defer to the class's default config" do
+        assert @test_inst.default_config
+        assert_equal @test_class.default_config, @test_inst.default_config
+        assert_equal @test_class.default_config.object_id,
+          @test_inst.default_config.object_id
+      end
+    end
+
     describe 'default_config' do
       before do
         @defaults = @test_class.default_config
