@@ -1,5 +1,6 @@
 require 'minitest/unit'
 require 'minitest/autorun'
+require 'set'
 
 require 'configurable'
 
@@ -44,6 +45,7 @@ describe Configurable do
     end
 
     it 'should store defaults' do
+      assert_respond_to @test_class.default_config, :[]
       assert_equal 1, @test_class.default_config[:one]
       assert_nil @test_class.default_config[:two]
     end
@@ -65,6 +67,31 @@ describe Configurable do
     it 'should create members from hash keys at the end' do
       assert_equal 'five', @struct.members.last
     end
+  end
+
+  describe 'configurable_options with nested args' do
+    before do
+      @test_class.instance_eval do
+        configurable_options :a => [:b], :c => {:d => 42}
+      end
+      @struct = @test_class.const_get('Config')
+    end
+
+    it 'should create the config struct' do
+      refute_equal ::Config, @struct
+      assert_equal %w(a c).to_set, @struct.members.to_set
+    end
+
+    it 'should create a nested A struct' do
+      begin
+        a_struct = @struct.const_get('A')
+      rescue NameError
+        flunk "#{@test_class}::Config::A not found"
+      end
+      assert a_struct.ancestors.include? ConfigStruct::Struct
+    end
+
+    it 'should store defaults'
   end
 
   describe 'after configurable_options is called' do

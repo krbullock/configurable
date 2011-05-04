@@ -22,7 +22,3 @@ describe ConfigStruct do
     assert_equal 42, inst.a
   end
 end
-
-describe 'ConfigStruct with nested params' do
-  it 'should create nested config structs'
-end
