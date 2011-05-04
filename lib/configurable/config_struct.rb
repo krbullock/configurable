@@ -24,6 +24,16 @@ module ConfigStruct
       end
     end
 
+    def replace(*args)
+      hash_args = args.extract_options!
+      args.each_with_index do |v, i|
+        replace_member!(i, v)
+      end
+      for k, v in hash_args
+        replace_member!(k, v)
+      end
+    end
+
     def to_hash
       members.inject({}) do |hsh, k|
         hsh.tap do |h|
@@ -38,6 +48,21 @@ module ConfigStruct
 
     def to_args
       self.to_hash.to_args
+    end
+
+
+    private
+
+    # member may also be an index
+    def replace_member!(member, value)
+      if self[member].is_a? Struct
+        raise TypeError,
+        'cannot replace a ConfigStruct::Struct with a scalar' unless
+          value.respond_to? :to_args
+        self[member].replace(*value.to_args)
+      else
+        self[member] = value
+      end
     end
   end
 end

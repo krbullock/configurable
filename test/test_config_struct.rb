@@ -27,6 +27,27 @@ describe ConfigStruct::Struct do
     assert_equal 42, inst.to_hash['a']
   end
 
+  describe 'replace' do
+    before do
+      @inst = @struct.new(5)
+    end
+
+    it 'should replace values from positional args' do
+      @inst.replace(42)
+      assert_equal 42, @inst.a
+    end
+
+    it 'should replace values from keyword args' do
+      @inst.replace(:a => 42)
+      assert_equal 42, @inst.a
+    end
+
+    it 'should override positional args with keyword args' do
+      @inst.replace(42, :a => 3)
+      assert_equal 3, @inst.a
+    end
+  end
+
   describe 'with a nested ConfigStruct::Struct' do
     before do
       @nested = ConfigStruct::Struct.new(:b)
