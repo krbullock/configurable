@@ -8,32 +8,53 @@ Lets you make your Ruby class configurable with a simple mixin.
 
 == FEATURES/PROBLEMS:
 
-* Generic mixin that you can use in any Ruby class. Separates
-  configuration of a class from its implementation.
+* Generic mixin that you can use in any Ruby class (or application).
 
-* Settings can be configured from a hash or deserialized from YAML,
-  either in a string or a file. (And remember, YAML is a superset of
-  JSON!)
+* Separates handling configuration of a class from its implementation.
+
+* Supports nested settings.
 
 * Rejects configuration keys outside those you specify.
 
 * Supports setting defaults on a class which can then be modified for
   each instance of the class.
 
+* Settings are stored in Structs (well, actually a subclass of Struct),
+  so they can be accessed via normal methods calls, or by Symbol or
+  String keys.
+
+* Settings can be configured from a hash or deserialized from YAML,
+  either in a string or a file. (And remember, YAML is a superset of
+  JSON!)
+
 * Plays nicely with the Singleton module.
+
+* Can safely store other kinds of structs as opaque config values. They
+  won't get automatically deep-copied.
 
 == SYNOPSIS:
 
     require 'configurable'
-    class ConfigurableDoodad
+    class Doodad
       include Configurable
 
       # Declare the allowed options and their default values
       configurable_options :foo => 'default',
         :bar => {:quux => 42, :wibble => nil},
         :baz => nil
-      end
     end
+
+    Doodad::Config              # => a ConfigStruct::Struct
+    Doodad::Config::Bar         # => another ConfigStruct::Struct
+
+    Doodad.default_config       # => #<struct Doodad::Config
+                                #     bar=#<struct Doodad::Config::Bar
+                                #          quux=42, wibble=nil>,
+                                #     baz=nil,
+                                #     foo="default">
+
+    Doodad.config               # => a (deep) copy of default_config,
+                                #    ready for use
 
 == REQUIREMENTS:
 
