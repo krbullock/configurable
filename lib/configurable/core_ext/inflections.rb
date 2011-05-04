@@ -4,9 +4,7 @@
 unless String.respond_to?(:camelize)
   class String
     def camelize
-      lower_case_and_underscored_word.to_s.
-        gsub(/\/(.?)/) { "::#{$1.upcase}" }.
-        gsub(/(?:^|_)(.)/) { $1.upcase }
+      self.gsub(/\/(.?)/) { "::#{$1.upcase}" }.gsub(/(?:^|_)(.)/) { $1.upcase }
     end
   end
 end
