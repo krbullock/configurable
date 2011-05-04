@@ -45,18 +45,22 @@ module Configurable
       end
       [struct, default_config.freeze]
     end
+
+    def config_struct
+      @_config_struct ||= nil
+    end
   end
 
   module ConfigAccessors
     def config
       raise NameError, 'use configurable_options to define settings' unless
-        @_config_struct
+        config_struct
       @_config ||= @_default_config.dup # dup unfreezes
     end
 
     def default_config
       raise NameError, 'use configurable_options to define settings' unless
-        @_config_struct
+        config_struct
       @_default_config
     end
   end
