@@ -1,5 +1,6 @@
 require 'configurable/core_ext/extract_options'
 
+# See documentation on ConfigStruct::Struct.
 module ConfigStruct
   module HashInitializer #:nodoc:
     def initialize(*args)
