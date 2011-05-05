@@ -1,23 +1,5 @@
 # Define Array#extract_options! and associated methods if they're not
 # already defined. Code taken from Rails' ActiveSupport.
-
-class Hash
-  unless {}.respond_to? :extractable_options?
-    # By default, only instances of Hash itself are extractable.
-    # Subclasses of Hash may implement this method and return
-    # true to declare themselves as extractable. If a Hash
-    # is extractable, Array#extract_options! pops it from
-    # the Array when it is the last element of the Array.
-    def extractable_options?
-      instance_of?(Hash)
-    end
-  end
-
-  def to_args
-    [self]
-  end
-end
-
 class Array
   unless [].respond_to? :extract_options!
     # Extracts options from a set of arguments. Removes and returns the last
@@ -38,7 +20,30 @@ class Array
     end
   end
 
+  # Returns the array in a form suitable for expanding into a parameter
+  # list, that is, just the array itself.
   def to_args
     self
   end
 end
+
+class Hash
+  unless {}.respond_to? :extractable_options?
+    # By default, only instances of Hash itself are extractable.
+    # Subclasses of Hash may implement this method and return
+    # true to declare themselves as extractable. If a Hash
+    # is extractable, Array#extract_options! pops it from
+    # the Array when it is the last element of the Array.
+    def extractable_options?
+      instance_of?(Hash)
+    end
+  end
+
+  # Puts the hash into an array suitable for expanding into a parameter
+  # list, such that it will be interpreted as keyword parameters if the
+  # method you're calling expects that.
+  def to_args
+    [self]
+  end
+end
+
