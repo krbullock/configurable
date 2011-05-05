@@ -37,16 +37,44 @@ module Configurable
     klass.extend ConfigAccessors
   end
 
+  # Returns the class' default configuration object.
   def default_config
     self.class.default_config
   end
 
+  # Returns the object's configuration object. This object is lazily
+  # created the first time the method is called as a copy of the class's
+  # current config.
   def config
     @_config ||= self.class.config.dup
   end
 
 
+  # Setup macros for classes that include Configurable.
   module Macros
+
+    # Declares the allowed configuration settings and (optionally) their
+    # default values. Field names should be passed as symbols. Example:
+    #
+    #     configurable_options :one, :two
+    #
+    # To declare options with default settings, you can pass them as
+    # hash parameters:
+    #
+    #     configurable_options :one => 1, :two => 2
+    #
+    # In Ruby 1.8, this will not preserve the order of the options. To
+    # define the options in a specific order _and_ declare defaults for
+    # them, declare the field names first and then the defaults:
+    #
+    #     configurable_options :one, :two, :one => 1
+    #
+    # Fields not listed in order but that are passed as hash params will
+    # be added after all the ordered parameters, in unspecified order:
+    #
+    #     configurable_options :one, :two, :one => 1, :five => '3 sir'
+    #     Config.members # => ["one", "two", "five"]
+    #
     def configurable_options(*args)
       @_config_struct, @_default_config =
         create_struct(self, 'Config', *args)
@@ -55,7 +83,7 @@ module Configurable
 
     private
 
-    def create_struct(base, name, *args)
+    def create_struct(base, name, *args) #:nodoc:
       defaults = args.extract_options!
       members = (args + defaults.keys).uniq
       struct = ConfigStruct::Struct.new(*members)
@@ -73,7 +101,7 @@ module Configurable
       [struct, default_config.freeze]
     end
 
-    def config_struct
+    def config_struct #:nodoc:
       @_config_struct ||= nil
     end
   end
