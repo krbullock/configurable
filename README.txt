@@ -78,7 +78,7 @@ specifics.
 
 == INSTALL:
 
-    $ gem install configurable
+    $ gem install ruby-configurable
 
 == DEVELOPERS:
 
