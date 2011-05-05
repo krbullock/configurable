@@ -69,6 +69,9 @@ Lets you make your Ruby class configurable with a simple mixin.
     Doodad.config.replace(      # loads config from a YAML file
       YAML.load('config.yml'))
 
+See the documentation on Configurable for an overview and links to more
+specifics.
+
 == REQUIREMENTS:
 
 * Ruby

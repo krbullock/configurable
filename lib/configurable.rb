@@ -42,9 +42,9 @@ module Configurable
     self.class.default_config
   end
 
-  # Returns the object's configuration object. This object is lazily
-  # created the first time the method is called as a copy of the class's
-  # current config.
+  # Returns the object's current configuration object. This object is
+  # lazily created the first time the method is called as a copy of the
+  # class' current config.
   def config
     @_config ||= self.class.config.dup
   end
@@ -58,7 +58,15 @@ module Configurable
     #
     #     configurable_options :one, :two
     #
-    # To declare options with default settings, you can pass them as
+    # This creates a new ConfigStruct::Struct (which is a subclass of
+    # Ruby's built-in Struct) called Config within the class it's called
+    # on. (Thus if you call it within a class called Doodad, the
+    # configuration struct will be created as Doodad::Config.)
+    #
+    # You may also declare options with default settings, which will
+    # then be available thru the default_config method on your class
+    # (e.g. Doodad.default_config; see documentation on
+    # ConfigAccessors.default_config). To declare defaults, pass them as
     # hash parameters:
     #
     #     configurable_options :one => 1, :two => 2
@@ -106,13 +114,24 @@ module Configurable
     end
   end
 
+  # Methods to access the class' current configuration and default
+  # configuration.
   module ConfigAccessors
+    # Returns the class' configuration object. This object is an
+    # instance of the class' Config struct (which is a
+    # ConfigStruct::Struct created by the Macros.configurable_options
+    # method). It is lazily created the first time the method is called
+    # as a copy of the default configuration object.
     def config
       raise NameError, 'use configurable_options to define settings' unless
         config_struct
       @_config ||= @_default_config.dup # dup unfreezes
     end
 
+    # Returns the class' default configuration object. This object is a
+    # frozen instance of the class' Config struct (which is a
+    # ConfigStruct::Struct created by the Macros.configurable_options
+    # method).
     def default_config
       raise NameError, 'use configurable_options to define settings' unless
         config_struct
