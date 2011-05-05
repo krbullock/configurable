@@ -2,10 +2,37 @@ require 'configurable/config_struct'
 require 'configurable/core_ext/extract_options'
 require 'configurable/core_ext/inflections'
 
+# Include this module in a class to make it configurable, and declare
+# allowed settings with the Macros.configurable_options method:
+#
+#     require 'configurable'
+#     class Doodad
+#       include Configurable
+#       configurable_options :one, :two, :three,  # keep options in order
+#         :one => 1, :two => 'zwei'               # set defaults
+#     end
+#
+# This creates a ConfigStruct::Struct called Doodad::Config, along with
+# a frozen instance of it containing the default options accessible with
+# the Doodad.default_config method (see ConfigAccessors.default_config).
+#
+# You can then use Doodad.config (see ConfigAccessors.config) to store
+# the configuration for your class. See ConfigStruct::Struct for the
+# available methods. The config object is lazily created when
+# Doodad.config is called.
+#
+# Each instance of Doodad can have its own configuration object as well:
+#
+#     aDoodad = Doodad.new
+#     aDoodad.config                    # => a copy of Doodad.config
+#     aDoodad.config.one = 'eins'
+#     aDoodad.config.one                # => 'eins'
+#     Doodad.config.one                 # => 1
+#
 module Configurable
-  VERSION = '1.0.0'
+  VERSION = '1.0.0' #:nodoc:
 
-  def self.included(klass)
+  def self.included(klass) #:nodoc:
     klass.extend Macros
     klass.extend ConfigAccessors
   end
