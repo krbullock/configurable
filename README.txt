@@ -72,6 +72,23 @@ Lets you make your Ruby class configurable with a simple mixin.
 See the documentation on Configurable for an overview and links to more
 specifics.
 
+=== Using with Rails
+
+If you want to make a Rails class configurable, you'll need some special
+mojo to reconfigure the class when it gets reloaded in development mode.
+You can do this with Rails.application.config.to_prepare. For example,
+to have your class configuration reloaded from a YAML file, create an
+initializer like so:
+
+ Rails.application.config.to_prepare do
+   begin
+     Doodad.config.update(
+       YAML.load_file(File.join(Rails.root, 'config', 'doodad.yml')) || {})
+   rescue Errno::ENOENT
+     # handle missing config file
+   end
+ end
+
 == REQUIREMENTS:
 
 * Ruby
