@@ -40,34 +40,34 @@ Lets you make your Ruby class configurable with a simple mixin.
 
 == SYNOPSIS:
 
-    require 'configurable'
-    class Doodad
-      include Configurable
+ require 'configurable'
+ class Doodad
+   include Configurable
 
-      # Declare the allowed options and their default values
-      configurable_options :foo => 'default',
-        :bar => {:quux => 42, :wibble => nil},
-        :baz => nil
-    end
+   # Declare the allowed options and their default values
+   configurable_options :foo => 'default',
+     :bar => {:quux => 42, :wibble => nil},
+     :baz => nil
+ end
 
-    Doodad::Config              # => a ConfigStruct::Struct
-    Doodad::Config::Bar         # => another ConfigStruct::Struct
+ Doodad::Config              # => a ConfigStruct::Struct
+ Doodad::Config::Bar         # => another ConfigStruct::Struct
 
-    Doodad.default_config       # => #<struct Doodad::Config
-                                #     bar=#<struct Doodad::Config::Bar
-                                #          quux=42, wibble=nil>,
-                                #     baz=nil,
-                                #     foo="default">
+ Doodad.default_config       # => #<struct Doodad::Config
+                             #     bar=#<struct Doodad::Config::Bar
+                             #          quux=42, wibble=nil>,
+                             #     baz=nil,
+                             #     foo="default">
 
-    Doodad.config               # => a (deep) copy of default_config,
-                                #    ready for use
+ Doodad.config               # => a (deep) copy of default_config,
+                             #    ready for use
 
-    Doodad.config.replace(      # replaces config with passed values
-      :foo => 'mine',
-      :bar => {:quux => 9})
+ Doodad.config.replace(      # replaces config with passed values
+   :foo => 'mine',
+   :bar => {:quux => 9})
 
-    Doodad.config.replace(      # loads config from a YAML file
-      YAML.load('config.yml'))
+ Doodad.config.update(       # loads config from a YAML file
+   YAML.load('config.yml'))
 
 See the documentation on Configurable for an overview and links to more
 specifics.
@@ -78,13 +78,13 @@ specifics.
 
 == INSTALL:
 
-    $ gem install ruby-configurable
+ $ gem install ruby-configurable
 
 == DEVELOPERS:
 
 After checking out the source, run:
 
-  $ rake newb
+ $ rake newb
 
 This task will install any missing dependencies, run the tests/specs,
 and generate the RDoc.
