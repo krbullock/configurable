@@ -116,11 +116,12 @@ module ConfigStruct
     #
     def to_hash
       members.inject({}) do |hsh, k|
+        v = self[k]
         hsh.tap do |h|
-          h[k] = if self[k].is_a? Struct
-                   self[k].to_hash
+          h[k] = if v.is_a? Struct
+                   v.to_hash
                  else
-                   self[k]
+                   v
                  end
         end
       end
