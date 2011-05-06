@@ -134,6 +134,7 @@ module ConfigStruct
       args = each_pair.inject({}) do |hsh, pair|
         k, v = pair
         hsh.tap do |h|
+          next if v.nil?
           h[k.to_sym] = if v.is_a? Struct
                           v.to_args(false)
                         else
