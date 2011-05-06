@@ -1,10 +1,12 @@
 === 1.0.1 / 2011-05-06
 
-* 1 bugfix
+* 2 bugfixes
 
   * to_args now returns a Hash with symbols as keys. This lets you pass
     your configuration directly to methods that expect option-style hash
     arguments.
+
+  * to_args now excludes nil values from the resulting hash.
 
 === 1.0.0 / 2011-05-03
 
