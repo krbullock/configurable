@@ -27,6 +27,26 @@ describe ConfigStruct::Struct do
     assert_equal 42, inst.to_hash['a']
   end
 
+  describe 'to_args' do
+    before do
+      @inst = @struct.new(42, 'foobar')
+      @args = @inst.to_args
+    end
+
+    it 'should convert to option args' do
+      # should be a hash wrapped in an array
+      assert_respond_to @args, :[]
+      assert_respond_to @args.first, :keys
+      assert_respond_to @args.first, :to_hash
+    end
+
+    it 'should have symbol keys' do
+      for key in @args.first.keys
+        assert_kind_of Symbol, key
+      end
+    end
+  end
+
   describe 'replace' do
     before do
       @inst = @struct.new(5, 3)

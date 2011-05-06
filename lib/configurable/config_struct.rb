@@ -129,8 +129,18 @@ module ConfigStruct
     # Puts config values into an array suitable for expanding into a
     # parameter list. This is for convenience in recursive traversals of
     # a struct instance.
-    def to_args
-      self.to_hash.to_args
+    def to_args(box = true)
+      args = each_pair.inject({}) do |hsh, pair|
+        k, v = pair
+        hsh.tap do |h|
+          h[k.to_sym] = if v.is_a? Struct
+                          v.to_args(false)
+                        else
+                          v
+                        end
+        end
+      end
+      box ? args.to_args : args
     end
 
 
