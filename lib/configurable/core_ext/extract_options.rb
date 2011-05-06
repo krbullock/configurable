@@ -22,7 +22,7 @@ class Array
 
   # Returns the array in a form suitable for expanding into a parameter
   # list, that is, just the array itself.
-  def to_args
+  def to_args(box = true)
     self
   end
 end
@@ -39,11 +39,27 @@ class Hash
     end
   end
 
+  # needed for to_args
+  unless {}.respond_to? :symbolize_keys!
+    # Destructively convert all keys to symbols, as long as they respond
+    # to +to_sym+.
+    def symbolize_keys!
+      keys.each do |key|
+        self[(key.to_sym rescue key) || key] = delete(key)
+      end
+      self
+    end
+
+    def symbolize_keys
+      dup.symbolize_keys!
+    end
+  end
+
   # Puts the hash into an array suitable for expanding into a parameter
   # list, such that it will be interpreted as keyword parameters if the
   # method you're calling expects that.
-  def to_args
-    [self]
+  def to_args(box = true)
+    args = self.symbolize_keys
+    box ? [args] : args
   end
 end
-
