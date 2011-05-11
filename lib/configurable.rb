@@ -122,7 +122,12 @@ module Configurable
     # The class' default configuration object. This object is a frozen
     # instance of the Config struct (which is a ConfigStruct::Struct
     # created by the Macros.configurable_options method).
-    attr_accessor :defaults
+    attr_reader :defaults
+
+    def defaults=(defaults)
+      raise TypeError, 'defaults can only be assigned once' if @defaults
+      @defaults = defaults
+    end
   end
 
   # Methods to access the class' current configuration and default

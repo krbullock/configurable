@@ -137,6 +137,15 @@ describe Configurable do
         assert_equal @test_class.default_config.object_id,
           @struct.defaults.object_id
       end
+
+      it 'should raise an error if you try to reassign to defaults' do
+        begin
+          @struct.defaults = @struct.new
+          flunk 'expected TypeError'
+        rescue TypeError
+          # passed test if #defaults= raises TypeError
+        end
+      end
     end
 
     describe 'an instance' do
