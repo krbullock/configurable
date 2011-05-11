@@ -124,9 +124,9 @@ module Configurable
     # created by the Macros.configurable_options method).
     attr_reader :defaults
 
-    def defaults=(defaults)
-      raise TypeError, 'defaults can only be assigned once' if @defaults
-      @defaults = defaults
+    def defaults=(new_defaults)
+      raise TypeError, 'defaults can only be assigned once' if defaults
+      @defaults = new_defaults
     end
   end
 
