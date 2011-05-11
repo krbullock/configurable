@@ -1,3 +1,12 @@
+=== 1.0.2 / 2011-05-10
+
+* 1 minor enhancement
+
+  * Default config is now accessible thru the generated Config module,
+    as Config.defaults. The default_config method added to your class
+    when you include Configurable is deprecated, but will continue to
+    work (on both your class and instances of it).
+
 === 1.0.1 / 2011-05-06
 
 * 2 bugfixes

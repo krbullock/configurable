@@ -30,7 +30,7 @@ require 'configurable/core_ext/inflections'
 #     Doodad.config.one                 # => 1
 #
 module Configurable
-  VERSION = '1.0.1' #:nodoc:
+  VERSION = '1.0.2' #:nodoc:
 
   def self.included(klass) #:nodoc:
     klass.extend Macros
