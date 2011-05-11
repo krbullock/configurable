@@ -134,7 +134,7 @@ module Configurable
     def config
       raise NameError, 'use configurable_options to define settings' unless
         config_struct
-      @_config ||= @_default_config.dup # dup unfreezes
+      @_config ||= config_struct.defaults.dup # dup unfreezes
     end
 
     # Returns the class' default configuration object. This object is a
@@ -144,7 +144,7 @@ module Configurable
     def default_config
       raise NameError, 'use configurable_options to define settings' unless
         config_struct
-      @_default_config
+      config_struct.defaults
     end
   end
 end
