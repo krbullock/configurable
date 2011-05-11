@@ -112,6 +112,7 @@ module Configurable
     end
 
     def config_struct #:nodoc:
+      # the ||= nil quashes an 'instance variable not initialized' warning
       @_config_struct ||= nil
     end
   end
