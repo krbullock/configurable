@@ -86,6 +86,8 @@ module Configurable
     def configurable_options(*args)
       @_config_struct, @_default_config =
         create_struct(self, 'Config', *args)
+      @_config_struct.extend ConfigStructDefaults
+      @_config_struct.defaults = @_default_config
     end
 
 
@@ -112,6 +114,13 @@ module Configurable
     def config_struct #:nodoc:
       @_config_struct ||= nil
     end
+  end
+
+  # Accessors for the class' default configuration to add to the
+  # generated Config module.
+  module ConfigStructDefaults
+    # The class' default configuration.
+    attr_accessor :defaults
   end
 
   # Methods to access the class' current configuration and default

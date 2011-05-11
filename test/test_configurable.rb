@@ -119,6 +119,26 @@ describe Configurable do
       end
     end
 
+    describe 'generated Config class' do
+      before do
+        @struct = @test_class.const_get('Config')
+        refute_equal ::Config, @struct
+      end
+
+      it 'should return the default config' do
+        assert_respond_to @struct, :defaults
+        @defaults = @struct.defaults
+        assert_equal 1, @defaults.one
+        assert_nil @defaults.two
+      end
+
+      it 'should return the same instance as the class default_config' do
+        assert_equal @test_class.default_config, @struct.defaults
+        assert_equal @test_class.default_config.object_id,
+          @struct.defaults.object_id
+      end
+    end
+
     describe 'an instance' do
       before do
         @test_inst = @test_class.new
