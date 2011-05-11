@@ -53,13 +53,13 @@ Lets you make your Ruby class configurable with a simple mixin.
  Doodad::Config              # => a ConfigStruct::Struct
  Doodad::Config::Bar         # => another ConfigStruct::Struct
 
- Doodad.default_config       # => #<struct Doodad::Config
+ Doodad::Config.defaults     # => #<struct Doodad::Config
                              #     bar=#<struct Doodad::Config::Bar
                              #          quux=42, wibble=nil>,
                              #     baz=nil,
                              #     foo="default">
 
- Doodad.config               # => a (deep) copy of default_config,
+ Doodad.config               # => a (deep) copy of Doodad::Config.defaults,
                              #    ready for use
 
  Doodad.config.replace(      # replaces config with passed values

@@ -14,7 +14,7 @@ require 'configurable/core_ext/inflections'
 #
 # This creates a ConfigStruct::Struct called Doodad::Config, along with
 # a frozen instance of it containing the default options accessible with
-# the Doodad.default_config method (see ConfigAccessors.default_config).
+# the Doodad::Config.defaults method (see ConfigStructDefaults).
 #
 # You can then use Doodad.config (see ConfigAccessors.config) to store
 # the configuration for your class. See ConfigStruct::Struct for the
@@ -37,8 +37,7 @@ module Configurable
     klass.extend ConfigAccessors
   end
 
-  # Returns the class' default configuration object.
-  def default_config
+  def default_config #:nodoc:
     self.class.default_config
   end
 
@@ -64,10 +63,10 @@ module Configurable
     # configuration struct will be created as Doodad::Config.)
     #
     # You may also declare options with default settings, which will
-    # then be available thru the default_config method on your class
-    # (e.g. Doodad.default_config; see documentation on
-    # ConfigAccessors.default_config). To declare defaults, pass them as
-    # hash parameters:
+    # then be available thru the Config::defaults method on the
+    # generated struct (e.g. Doodad::Config.defaults; see documentation
+    # on ConfigStructDefaults). To declare defaults, pass them as hash
+    # parameters:
     #
     #     configurable_options :one => 1, :two => 2
     #
@@ -120,7 +119,9 @@ module Configurable
   # Accessors for the class' default configuration to add to the
   # generated Config module.
   module ConfigStructDefaults
-    # The class' default configuration.
+    # The class' default configuration object. This object is a frozen
+    # instance of the Config struct (which is a ConfigStruct::Struct
+    # created by the Macros.configurable_options method).
     attr_accessor :defaults
   end
 
@@ -138,11 +139,7 @@ module Configurable
       @_config ||= config_struct.defaults.dup # dup unfreezes
     end
 
-    # Returns the class' default configuration object. This object is a
-    # frozen instance of the class' Config struct (which is a
-    # ConfigStruct::Struct created by the Macros.configurable_options
-    # method).
-    def default_config
+    def default_config #:nodoc:
       raise NameError, 'use configurable_options to define settings' unless
         config_struct
       config_struct.defaults
